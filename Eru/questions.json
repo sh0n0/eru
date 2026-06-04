@@ -1,0 +1,164 @@
+{
+  "categories": [
+    {
+      "id": "self_introduction",
+      "name": "Self Introduction",
+      "icon": "person.fill",
+      "questions": [
+        {
+          "id": "si_1",
+          "text": "Tell me about yourself.",
+          "hint": "Mention your name, background, and what you currently do."
+        },
+        {
+          "id": "si_2",
+          "text": "What are your hobbies and interests?",
+          "hint": "Talk about activities you enjoy in your free time and why you like them."
+        },
+        {
+          "id": "si_3",
+          "text": "Where are you from, and what do you like about your hometown?",
+          "hint": "Describe your hometown, its culture, food, or notable features."
+        },
+        {
+          "id": "si_4",
+          "text": "What are your strengths and weaknesses?",
+          "hint": "Be honest and give concrete examples. For weaknesses, mention steps you take to improve."
+        },
+        {
+          "id": "si_5",
+          "text": "What are your goals for the future?",
+          "hint": "Talk about both short-term and long-term aspirations and how you plan to achieve them."
+        }
+      ]
+    },
+    {
+      "id": "daily_life",
+      "name": "Daily Life",
+      "icon": "sun.max.fill",
+      "questions": [
+        {
+          "id": "dl_1",
+          "text": "Describe your typical morning routine.",
+          "hint": "Walk through what you do from waking up to leaving home or starting work."
+        },
+        {
+          "id": "dl_2",
+          "text": "What do you usually eat for breakfast, lunch, and dinner?",
+          "hint": "Describe your eating habits and mention any favorite foods or special dishes."
+        },
+        {
+          "id": "dl_3",
+          "text": "How do you spend your weekends?",
+          "hint": "Talk about your activities, whether you prefer relaxing or staying active."
+        },
+        {
+          "id": "dl_4",
+          "text": "What kind of music do you listen to and why?",
+          "hint": "Describe your taste in music and how it affects your mood or productivity."
+        },
+        {
+          "id": "dl_5",
+          "text": "How do you stay healthy?",
+          "hint": "Discuss exercise habits, diet choices, sleep, and mental health practices."
+        }
+      ]
+    },
+    {
+      "id": "work_career",
+      "name": "Work & Career",
+      "icon": "briefcase.fill",
+      "questions": [
+        {
+          "id": "wc_1",
+          "text": "Tell me about your job or studies.",
+          "hint": "Explain what you do, your role or major, and why you chose this path."
+        },
+        {
+          "id": "wc_2",
+          "text": "What skills are most important in your field?",
+          "hint": "Discuss both technical skills and soft skills needed for success."
+        },
+        {
+          "id": "wc_3",
+          "text": "Describe a challenging situation you faced at work or school and how you handled it.",
+          "hint": "Use the STAR method: Situation, Task, Action, Result."
+        },
+        {
+          "id": "wc_4",
+          "text": "What motivates you in your work or studies?",
+          "hint": "Talk about intrinsic motivations like passion or curiosity, and extrinsic ones like goals."
+        },
+        {
+          "id": "wc_5",
+          "text": "Where do you see yourself in five years?",
+          "hint": "Describe your career ambitions and the concrete steps you plan to take."
+        }
+      ]
+    },
+    {
+      "id": "travel",
+      "name": "Travel",
+      "icon": "airplane",
+      "questions": [
+        {
+          "id": "tr_1",
+          "text": "Describe a memorable trip you have taken.",
+          "hint": "Talk about where you went, what you did, and why it was special or meaningful."
+        },
+        {
+          "id": "tr_2",
+          "text": "What country would you most like to visit and why?",
+          "hint": "Explain what attracts you — culture, food, nature, history, or people."
+        },
+        {
+          "id": "tr_3",
+          "text": "Do you prefer traveling alone or with others? Why?",
+          "hint": "Discuss the advantages and disadvantages of each style of travel."
+        },
+        {
+          "id": "tr_4",
+          "text": "What is the most important thing to pack when traveling?",
+          "hint": "Think beyond clothes — consider practical items and things that make you comfortable."
+        },
+        {
+          "id": "tr_5",
+          "text": "How has traveling changed your perspective on life?",
+          "hint": "Reflect on cultural experiences, unexpected encounters, or personal growth."
+        }
+      ]
+    },
+    {
+      "id": "opinions",
+      "name": "Opinions & Debates",
+      "icon": "bubble.left.and.bubble.right.fill",
+      "questions": [
+        {
+          "id": "op_1",
+          "text": "Do you think social media has a positive or negative effect on society?",
+          "hint": "Consider both sides before stating your opinion. Give specific examples."
+        },
+        {
+          "id": "op_2",
+          "text": "Should everyone learn to code? Why or why not?",
+          "hint": "Think about the benefits of programming literacy and whether it's practical for all."
+        },
+        {
+          "id": "op_3",
+          "text": "What is the most important issue facing the world today?",
+          "hint": "Choose one issue and explain why you believe it is the most pressing."
+        },
+        {
+          "id": "op_4",
+          "text": "Is it better to live in a city or the countryside?",
+          "hint": "Compare lifestyle, career opportunities, cost of living, and quality of life."
+        },
+        {
+          "id": "op_5",
+          "text": "Should higher education be free for everyone?",
+          "hint": "Consider the economic, social, and practical implications for students and governments."
+        }
+      ]
+    }
+  ]
+}
