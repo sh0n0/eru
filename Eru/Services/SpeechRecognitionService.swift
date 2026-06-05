@@ -9,10 +9,15 @@ final class SpeechRecognitionService {
     var permissionGranted = false
     var errorMessage: String?
 
+    private(set) var lastAudioFilename: String?
+    private(set) var lastRecordingDuration: TimeInterval = 0
+
     private let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
+    private var currentAudioFilename: String?
+    private var recordingStartTime: Date?
 
     func requestPermissions() async {
         let speechStatus = await withCheckedContinuation { continuation in
@@ -56,8 +61,18 @@ final class SpeechRecognitionService {
 
         let inputNode = audioEngine.inputNode
         let format = inputNode.outputFormat(forBus: 0)
+
+        // Prepare audio file for saving
+        let filename = UUID().uuidString + ".caf"
+        let audioFile = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+            .map { $0.appendingPathComponent(filename) }
+            .flatMap { try? AVAudioFile(forWriting: $0, settings: format.settings) }
+        currentAudioFilename = audioFile != nil ? filename : nil
+        recordingStartTime = Date()
+
         inputNode.installTap(onBus: 0, bufferSize: 1024, format: format) { buffer, _ in
             request.append(buffer)
+            try? audioFile?.write(from: buffer)
         }
 
         do {
@@ -75,6 +90,14 @@ final class SpeechRecognitionService {
         recognitionRequest = nil
         recognitionTask?.cancel()
         recognitionTask = nil
+
+        if let start = recordingStartTime {
+            lastRecordingDuration = Date().timeIntervalSince(start)
+        }
+        recordingStartTime = nil
+        lastAudioFilename = currentAudioFilename
+        currentAudioFilename = nil
+
         if audioEngine.isRunning {
             audioEngine.stop()
         }

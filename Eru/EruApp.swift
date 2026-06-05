@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 @main
 struct EruApp: App {
@@ -6,5 +7,6 @@ struct EruApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: PracticeSession.self)
     }
 }

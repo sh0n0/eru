@@ -1,16 +1,34 @@
 import SwiftUI
+import SwiftData
 
 struct PracticeView: View {
     let question: Question
     @State private var speechService = SpeechRecognitionService()
+    @State private var audioPlayer = AudioPlayer()
     @State private var showHint = false
+    @Environment(\.modelContext) private var modelContext
+    @Query private var sessions: [PracticeSession]
+
+    init(question: Question) {
+        self.question = question
+        let id = question.id
+        _sessions = Query(
+            filter: #Predicate<PracticeSession> { $0.questionId == id },
+            sort: \.createdAt,
+            order: .reverse
+        )
+    }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 questionSection
                 Divider()
-                transcriptSection
+                currentRecordingSection
+                if !sessions.isEmpty {
+                    Divider()
+                    pastSessionsSection
+                }
             }
             .padding(24)
         }
@@ -22,9 +40,20 @@ struct PracticeView: View {
             await speechService.requestPermissions()
         }
         .onDisappear {
+            if speechService.isRecording {
+                speechService.transcript = ""
+            }
             speechService.stopRecording()
+            audioPlayer.stop()
+        }
+        .onChange(of: speechService.isRecording) { wasRecording, isRecording in
+            if wasRecording && !isRecording {
+                savePendingSession()
+            }
         }
     }
+
+    // MARK: - Sections
 
     private var questionSection: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -54,10 +83,10 @@ struct PracticeView: View {
         }
     }
 
-    private var transcriptSection: some View {
+    private var currentRecordingSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text("YOUR ANSWER")
+                Text("CURRENT RECORDING")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .kerning(1)
@@ -77,7 +106,7 @@ struct PracticeView: View {
             ZStack(alignment: .topLeading) {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.quaternary)
-                    .frame(minHeight: 120)
+                    .frame(minHeight: 100)
 
                 if speechService.transcript.isEmpty {
                     Text(speechService.isRecording ? "Listening…" : "Tap the microphone button to start recording.")
@@ -97,6 +126,28 @@ struct PracticeView: View {
                     .font(.caption)
                     .foregroundStyle(.red)
             }
+        }
+    }
+
+    private var pastSessionsSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("PAST RECORDINGS (\(sessions.count))")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .kerning(1)
+
+            VStack(spacing: 0) {
+                ForEach(sessions) { session in
+                    SessionRowView(session: session, audioPlayer: audioPlayer) {
+                        deleteSession(session)
+                    }
+                    if session.id != sessions.last?.id {
+                        Divider().padding(.vertical, 4)
+                    }
+                }
+            }
+            .padding(12)
+            .background(.quaternary, in: RoundedRectangle(cornerRadius: 10))
         }
     }
 
@@ -125,5 +176,30 @@ struct PracticeView: View {
         }
         .padding()
         .background(.regularMaterial)
+    }
+
+    // MARK: - Actions
+
+    private func savePendingSession() {
+        guard !speechService.transcript.isEmpty else { return }
+        let session = PracticeSession(
+            questionId: question.id,
+            questionText: question.text,
+            transcript: speechService.transcript,
+            audioFilename: speechService.lastAudioFilename,
+            duration: speechService.lastRecordingDuration
+        )
+        modelContext.insert(session)
+        speechService.transcript = ""
+    }
+
+    private func deleteSession(_ session: PracticeSession) {
+        if audioPlayer.currentSessionId == session.id {
+            audioPlayer.stop()
+        }
+        if let url = session.audioURL {
+            try? FileManager.default.removeItem(at: url)
+        }
+        modelContext.delete(session)
     }
 }
