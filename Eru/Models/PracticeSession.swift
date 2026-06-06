@@ -26,4 +26,11 @@ final class PracticeSession {
         return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?
             .appendingPathComponent(filename)
     }
+
+    var wpm: Int? {
+        guard duration > 0 else { return nil }
+        let wordCount = transcript.components(separatedBy: .whitespacesAndNewlines).filter { !$0.isEmpty }.count
+        guard wordCount > 0 else { return nil }
+        return Int((Double(wordCount) / duration) * 60)
+    }
 }

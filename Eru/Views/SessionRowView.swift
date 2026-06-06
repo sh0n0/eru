@@ -16,9 +16,16 @@ struct SessionRowView: View {
                     Text(session.createdAt.formatted(date: .abbreviated, time: .shortened))
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                    Text(formatDuration(session.duration))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    HStack(spacing: 8) {
+                        Text(formatDuration(session.duration))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        if let wpm = session.wpm {
+                            Text("\(wpm) WPM")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
                 }
 
                 Spacer()
