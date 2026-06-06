@@ -8,5 +8,9 @@ struct EruApp: App {
             ContentView()
         }
         .modelContainer(for: PracticeSession.self)
+
+        Settings {
+            SettingsView()
+        }
     }
 }
